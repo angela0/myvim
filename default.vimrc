@@ -9,11 +9,11 @@ Plugin 'The-NERD-tree'
 Plugin 'taglist.vim'
 Plugin 'Auto-Pairs'
 Plugin 'L9'
-Plugin 'https://github.com/wincent/command-t.git'
+"Plugin 'https://github.com/wincent/command-t.git'
 Plugin 'https://github.com/nathanaelkane/vim-indent-guides.git'
 Plugin 'tagbar'
 Plugin 'https://github.com/scrooloose/nerdcommenter'
-Plugin 'Valloric/YouCompleteMe'
+"Plugin 'Valloric/YouCompleteMe'
 
 "Plugin 'ultisnips'
 
