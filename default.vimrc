@@ -9,11 +9,12 @@ Plugin 'The-NERD-tree'
 Plugin 'taglist.vim'
 Plugin 'Auto-Pairs'
 Plugin 'L9'
-"Plugin 'https://github.com/wincent/command-t.git'
+Plugin 'https://github.com/wincent/command-t.git'
 Plugin 'https://github.com/nathanaelkane/vim-indent-guides.git'
 Plugin 'tagbar'
 Plugin 'https://github.com/scrooloose/nerdcommenter'
-"Plugin 'Valloric/YouCompleteMe'
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'tpope/vim-commentary'
 
 "Plugin 'ultisnips'
 
@@ -30,6 +31,7 @@ set ruler		    " show the cursor position all the time
 set autoread		" auto read when file is changed from outside
 set hlsearch		" search highlighting
 set wildmenu        "命令行模式智能补全
+set wildmode=longest:full
 
 filetype off          " necessary to make ftdetect work on Linux
 syntax enable
@@ -169,6 +171,8 @@ fun! Big5()
     set fileencoding=big5
 endfun
 
+"去空行  
+nnoremap <F4> :g/^\s*$/d<CR> 
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -255,11 +259,13 @@ func! CompileRunGcc()
     elseif &filetype == 'html'
         exec "!firefox % &"
     elseif &filetype == 'go'
-        "        exec "!go build %<"
+        exec "!go build %<"
         exec "!time go run %"
     elseif &filetype == 'mkd'
         exec "!~/.vim/markdown.pl % > %.html &"
         exec "!firefox %.html &"
+    elseif &filetype == 'javascript'
+        exec "!time node %"
     endif
 endfunc
 "C,C++的调试
@@ -269,6 +275,7 @@ func! Rungdb()
     exec "!g++ % -g -o %<"
     exec "!gdb ./%<"
 endfunc
+
 
 
 "代码格式优化化
@@ -381,7 +388,8 @@ let g:UltiSnipsSnippetDirectories=["~/.vim/bundle/ultisnips/mysnippets"]
 "YCM Plugin
 let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
 let g:ycm_key_invoke_completion = '<F2>'
-map <F3> :YcmCompleter GoToDeclaration <CR>
+"map <F3> :YcmCompleter GoToDeclaration <CR>
+map <F3> :YcmCompleter GoToDefinitionElseDeclaration<CR>
 set completeopt-=preview
 
 "列出当前目录文件  
