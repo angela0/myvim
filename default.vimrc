@@ -15,8 +15,16 @@ Plugin 'tagbar'
 Plugin 'https://github.com/scrooloose/nerdcommenter'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'tpope/vim-commentary'
+Plugin 'https://github.com/walm/jshint.vim.git'
+Plugin 'https://github.com/myhere/vim-nodejs-complete'
+Plugin 'fatih/vim-go'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 
-"Plugin 'ultisnips'
+Plugin 'SirVer/ultisnips'
+
+Plugin 'ianva/vim-youdao-translater'
+"Plugin 'davidhalter/jedi-vim'
 
 call vundle#end()
 filetype plugin indent on
@@ -47,7 +55,7 @@ autocmd! bufwritepost .vimrc source ~/.vimrc
 
 if has("gui_running")	" GUI color and font settings
     set guifont=Osaka-Mono:h20
-    set background=dark 
+    set background=dark
     set t_Co=256          " 256 color mode
     set cursorline        " highlight current line
     colors molokai
@@ -55,7 +63,7 @@ if has("gui_running")	" GUI color and font settings
     gui=none cterm=none
 else
     " terminal color settings
-    colors molokai
+    colors phd
 endif
 
 
@@ -77,6 +85,7 @@ set cul             "高亮光标所在行
 set shortmess=atI
 set showcmd         "显示输入的命令
 set scrolloff=3     "光标距离buffer顶部或底部3行
+set noswapfile
 
 if version >= 603
     set helplang=cn
@@ -197,10 +206,10 @@ func! SetTitle()
         call append(line(".")+1, "")
     else 
         call setline(1, "/*************************************************************************") 
-        call append(line("."), "	> File Name: ".expand("%")) 
-        call append(line(".")+1, "	> Author: Angela") 
-        call append(line(".")+2, "	> Mail: zuchuang1@gmail.com") 
-        call append(line(".")+3, "	> Created Time: ".strftime("%c")) 
+        call append(line("."), "    > File Name: ".expand("%")) 
+        call append(line(".")+1, "    > Author: Angela") 
+        call append(line(".")+2, "    > Mail: zuchuang1@gmail.com") 
+        call append(line(".")+3, "    > Created Time: ".strftime("%c")) 
         call append(line(".")+4, " ************************************************************************/") 
         call append(line(".")+5, "")
     endif
@@ -244,7 +253,7 @@ map <F5> :call CompileRunGcc()<CR>
 func! CompileRunGcc()
     exec "w"
     if &filetype == 'c'
-        exec "!g++ % -o %<"
+        exec "!g++ % -o %< || make"
         exec "!time ./%<"
     elseif &filetype == 'cpp'
         exec "!g++ % -o %<"
@@ -259,7 +268,6 @@ func! CompileRunGcc()
     elseif &filetype == 'html'
         exec "!firefox % &"
     elseif &filetype == 'go'
-        exec "!go build %<"
         exec "!time go run %"
     elseif &filetype == 'mkd'
         exec "!~/.vim/markdown.pl % > %.html &"
@@ -286,7 +294,7 @@ map <F6> :call FormartSrc()<CR><CR>
 func! FormartSrc()
     exec "w"
     if &filetype == 'c'
-        exec "!astyle --style=ansi -a --suffix=none %"
+        exec "!astyle --style=ansi --suffix=none %"
     elseif &filetype == 'cpp' || &filetype == 'hpp'
         exec "r !astyle --style=ansi --one-line=keep-statements -a --suffix=none %> /dev/null 2>&1"
     elseif &filetype == 'perl'
@@ -295,8 +303,6 @@ func! FormartSrc()
         exec "r !autopep8 -i --aggressive %"
     elseif &filetype == 'java'
         exec "!astyle --style=java --suffix=none %"
-    elseif &filetype == 'jsp'
-        exec "!astyle --style=gnu --suffix=none %"
     elseif &filetype == 'xml'
         exec "!astyle --style=gnu --suffix=none %"
     else
@@ -383,13 +389,20 @@ let g:tagbar_type_cpp = {
 
 
 "ultisnips Plugin
-let g:UltiSnipsSnippetDirectories=["~/.vim/bundle/ultisnips/mysnippets"] 
+"绝对路径
+let g:UltiSnipsSnippetDirectories=[$HOME."/.vim/bundle/ultisnips/mysnippets/"]
+let g:UltiSnipsExpandTrigger="<c-x>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 "YCM Plugin
 let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
 let g:ycm_key_invoke_completion = '<F2>'
+let g:ycm_confirm_extra_conf = 0
 "map <F3> :YcmCompleter GoToDeclaration <CR>
 map <F3> :YcmCompleter GoToDefinitionElseDeclaration<CR>
+"let g:ycm_key_list_select_completion = ['','']
+"let g:ycm_key_list_previous_completion = ['','']
 set completeopt-=preview
 
 "列出当前目录文件  
@@ -400,6 +413,12 @@ autocmd vimenter * if !argc() | NERDTree | endif
 " 只剩 NERDTree时自动关闭
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
+set pastetoggle=<F12>
+
+" vim-go settings
+let g:go_fmt_command = "goimports"
 
 
-
+vnoremap <silent> <C-T> :<C-u>Ydv<CR>
+nnoremap <silent> <C-T> :<C-u>Ydc<CR>
+noremap <leader>yd :<C-u>Yde<CR>
