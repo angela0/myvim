@@ -6,33 +6,36 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'The-NERD-tree'
-Plugin 'taglist.vim'
+"Plugin 'taglist.vim'
 Plugin 'Auto-Pairs'
 Plugin 'L9'
-Plugin 'https://github.com/wincent/command-t.git'
-Plugin 'https://github.com/nathanaelkane/vim-indent-guides.git'
+"Plugin 'https://github.com/wincent/command-t.git'
+Plugin 'nathanaelkane/vim-indent-guides.git'
 Plugin 'tagbar'
-Plugin 'https://github.com/scrooloose/nerdcommenter'
 Plugin 'Valloric/YouCompleteMe'
-Plugin 'tpope/vim-commentary'
-Plugin 'https://github.com/walm/jshint.vim.git'
-Plugin 'https://github.com/myhere/vim-nodejs-complete'
+Plugin 'tpope/vim-commentary'   "comment
 Plugin 'fatih/vim-go'
 Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
+"Plugin 'vim-airline/vim-airline-themes'
 
 Plugin 'SirVer/ultisnips'
 
 Plugin 'ianva/vim-youdao-translater'
 "Plugin 'davidhalter/jedi-vim'
 
+"Plugin 'wchargin/vim-latexsuite'
+
+Plugin 'rdnetto/YCM-Generator'
+
+Plugin 'ctrlpvim/ctrlp.vim'
 call vundle#end()
 filetype plugin indent on
 
 
+
 "General Setting
 
-set nocompatible	" not compatible with the old-fashion vi mode
+"set nocompatible	" not compatible with the old-fashion vi mode
 set bs=2	    	" allow backspacing over everything in insert mode
 set history=1000	" keep 50 lines of command line history
 set ruler		    " show the cursor position all the time
@@ -41,7 +44,6 @@ set hlsearch		" search highlighting
 set wildmenu        "命令行模式智能补全
 set wildmode=longest:full
 
-filetype off          " necessary to make ftdetect work on Linux
 syntax enable
 syntax on
 filetype on           " Enable filetype detection
@@ -50,7 +52,7 @@ filetype plugin on    " Enable filetype-specific plugins
 
 
 " auto reload vimrc when editing it
-autocmd! bufwritepost .vimrc source ~/.vimrc
+autocmd! bufwritepost .vimrc source %
 
 
 if has("gui_running")	" GUI color and font settings
@@ -116,13 +118,13 @@ set tm=500
 
 " TAB setting{
 set expandtab        "replace <TAB> with spaces
-set softtabstop=4 
+set softtabstop=4
 set tabstop=4
-set shiftwidth=4 
+set shiftwidth=4
 set smarttab
 
 au FileType Makefile set noexpandtab
-"} 
+"}
 
 "Line setting
 "set nowrap  "禁止折行
@@ -133,8 +135,8 @@ set fo+=mB  "断行模块对亚洲语言的支持
 
 " status line {
 set laststatus=2
-set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ 
-set statusline+=[POS=%l,%v][%p%%]\ %{strftime(\"%d/%m/%y\ -\ %H:%M\")}   "状态行显示的内容  
+"set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\
+"set statusline+=[POS=%l,%v][%p%%]\ %{strftime(\"%d/%m/%y\ -\ %H:%M\")}   "状态行显示的内容
 
 function! CurDir()
     let curdir = substitute(getcwd(), $HOME, "~", "")
@@ -155,21 +157,21 @@ endfunction
 " C/C++ specific settings
 autocmd FileType c,cpp,cc set cindent comments=sr:/*,mb:*,el:*/,:// cino=>s,e0,n0,f0,{0,}0,^0,:0,bs,g0,h1s,p2,t0,+2,(2,)20,*30
 
-"--------------------------------------------------------------------------- 
+"---------------------------------------------------------------------------
 " ENCODING SETTINGS
-"--------------------------------------------------------------------------- 
-set encoding=utf-8                                  
+"---------------------------------------------------------------------------
+set encoding=utf-8
 set termencoding=utf-8
 set fileencoding=utf-8
 set fileencodings=ucs-bom,utf-8,big5,gb2312,latin1
 
 fun! ViewUTF8()
-    set encoding=utf-8                                  
+    set encoding=utf-8
     set termencoding=big5
 endfun
 
 fun! UTF8()
-    set encoding=utf-8                                  
+    set encoding=utf-8
     set termencoding=big5
     set fileencoding=utf-8
     set fileencodings=ucs-bom,big5,utf-8,latin1
@@ -180,37 +182,47 @@ fun! Big5()
     set fileencoding=big5
 endfun
 
-"去空行  
-nnoremap <F4> :g/^\s*$/d<CR> 
+"去空行
+"nnoremap <F4> :g/^\s*$/d<CR>
+
+"去行尾空白符
+map <F7> :call DeleteTailSpace()<CR>
+func! DeleteTailSpace()
+    exec 'w'
+    exec '%s/\v^(.{-})\s+$/\1/e'
+    exec 'w'
+    exec 'e! %'
+endfun
+
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""新文件标题
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"新建.c,.h,.sh,.java文件，自动插入文件头 
-autocmd BufNewFile *.cpp,*.[ch],*.sh,*.rb,*.java,*.py exec ":call SetTitle()" 
-""定义函数SetTitle，自动插入文件头 
-func! SetTitle() 
-    "如果文件类型为.sh文件 
-    if &filetype == 'sh' 
-        call setline(1,"\#!/bin/bash") 
-        call append(line("."), "") 
+"新建.c,.h,.sh,.java文件，自动插入文件头
+autocmd BufNewFile *.cpp,*.[ch],*.sh,*.rb,*.java,*.py exec ":call SetTitle()"
+""定义函数SetTitle，自动插入文件头
+func! SetTitle()
+    "如果文件类型为.sh文件
+    if &filetype == 'sh'
+        call setline(1,"\#!/bin/bash")
+        call append(line("."), "")
     elseif &filetype == 'python'
         call setline(1,"#!/usr/bin/env python")
         call append(line("."),"# coding=utf-8")
-        call append(line(".")+1, "") 
+        call append(line(".")+1, "")
 
     elseif &filetype == 'ruby'
         call setline(1,"#!/usr/bin/env ruby")
         call append(line("."),"# encoding: utf-8")
         call append(line(".")+1, "")
-    else 
-        call setline(1, "/*************************************************************************") 
-        call append(line("."), "    > File Name: ".expand("%")) 
-        call append(line(".")+1, "    > Author: Angela") 
-        call append(line(".")+2, "    > Mail: zuchuang1@gmail.com") 
-        call append(line(".")+3, "    > Created Time: ".strftime("%c")) 
-        call append(line(".")+4, " ************************************************************************/") 
+    else
+        call setline(1, "/*************************************************************************")
+        call append(line("."), "    > File Name: ".expand("%"))
+        call append(line(".")+1, "    > Author: Angela")
+        call append(line(".")+2, "    > Mail: zuchuang1@gmail.com")
+        call append(line(".")+3, "    > Created Time: ".strftime("%c"))
+        call append(line(".")+4, " ************************************************************************/")
         call append(line(".")+5, "")
     endif
     if expand("%:e") == 'cpp'
@@ -242,7 +254,7 @@ func! SetTitle()
         call append(line(".")+6,"public class ".expand("%:r"))
         call append(line(".")+7,"")
     endif
-endfunc 
+endfunc
 
 "新建文件后，自动定位到文件末尾
 autocmd BufNewFile * normal G
@@ -258,8 +270,8 @@ func! CompileRunGcc()
     elseif &filetype == 'cpp'
         exec "!g++ % -o %<"
         exec "!time ./%<"
-    elseif &filetype == 'java' 
-        exec "!javac %" 
+    elseif &filetype == 'java'
+        exec "!javac %"
         exec "!time java %<"
     elseif &filetype == 'sh'
         :!time bash %
@@ -315,7 +327,21 @@ endfunc
 
 """""""实用设置
 
-set clipboard+=unnamed  "共享剪贴板  
+" key shortcuts
+" F2    YCM complete hint
+" F3    YCM goto declaration
+" F4
+" F5    Compile and Run
+" F6    Format
+" F7    Delete Line-Tail space
+" F8    Run GDB
+" F9    Open or Close NerdTree Window
+" F10
+" F11
+" F12   pastetoggle
+" ;     mapleader
+
+set clipboard+=unnamed  "共享剪贴板
 set autowrite           "自动保存
 set confirm             "处理未保存和只读文件时确认
 
@@ -335,11 +361,7 @@ let mapleader=';'
 
 
 
-"NERD-tree Plugin
-"
-let NERDTreeWinSize=20
-
-"vim-indent-guides Plugin
+"------ Plugin vim-indent-guides
 " 随 vim 自启动
 let g:indent_guides_enable_on_vim_startup=1
 " 从第二层开始可视化显示缩进
@@ -350,7 +372,7 @@ let g:indent_guides_guide_size=1
 :nmap <silent> <Leader>i <Plug>IndentGuidesToggle"
 
 
-"tagbar Plugin
+"------ Plugin tagbar
 autocmd vimenter * Tagbar
 let g:tagbar_width=20
 " 设置 ctags 对哪些代码元素生成标签
@@ -388,14 +410,17 @@ let g:tagbar_type_cpp = {
 \ }
 
 
-"ultisnips Plugin
+
+"------ Plugin ultisnips
 "绝对路径
 let g:UltiSnipsSnippetDirectories=[$HOME."/.vim/bundle/ultisnips/mysnippets/"]
 let g:UltiSnipsExpandTrigger="<c-x>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
-"YCM Plugin
+
+
+"------ Plugin YCM
 let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
 let g:ycm_key_invoke_completion = '<F2>'
 let g:ycm_confirm_extra_conf = 0
@@ -405,9 +430,15 @@ map <F3> :YcmCompleter GoToDefinitionElseDeclaration<CR>
 "let g:ycm_key_list_previous_completion = ['','']
 set completeopt-=preview
 
-"列出当前目录文件  
+
+
+"------ Plugin NERDTree
+let NERDTreeWinSize=20
+
+"列出当前目录文件
 map <F9> :NERDTreeToggle<CR>
 imap <F9> <ESC> :NERDTreeToggle<CR>
+
 "当打开vim且没有文件时自动打开NERDTree
 autocmd vimenter * if !argc() | NERDTree | endif
 " 只剩 NERDTree时自动关闭
@@ -415,10 +446,14 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 
 set pastetoggle=<F12>
 
-" vim-go settings
+
+
+"------ Plugin vim-go settings
 let g:go_fmt_command = "goimports"
 
 
+
+"------ Plugin youdao-translate
 vnoremap <silent> <C-T> :<C-u>Ydv<CR>
 nnoremap <silent> <C-T> :<C-u>Ydc<CR>
 noremap <leader>yd :<C-u>Yde<CR>
