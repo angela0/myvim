@@ -35,10 +35,10 @@ filetype plugin indent on
 
 "General Setting
 
+let mapleader=';'
 "set nocompatible	" not compatible with the old-fashion vi mode
 set bs=2	    	" allow backspacing over everything in insert mode
 set history=1000	" keep 50 lines of command line history
-set ruler		    " show the cursor position all the time
 set autoread		" auto read when file is changed from outside
 set hlsearch		" search highlighting
 set wildmenu        "命令行模式智能补全
@@ -82,7 +82,7 @@ set ignorecase		" ignore case when searching
 set smartcase		" ignore case if search pattern is all lowercase,case-sensitive otherwise
 set smarttab		" insert tabs on the start of a line according to context
 set nu
-set ruler           "显示标尺
+"set ruler           "显示标尺
 set cul             "高亮光标所在行
 set shortmess=atI
 set showcmd         "显示输入的命令
@@ -340,6 +340,9 @@ endfunc
 " F11
 " F12   pastetoggle
 " ;     mapleader
+inoremap <c-]> <esc>viwUea
+inoremap <c-c><c-c> <esc>:wq<cr>
+noremap <c-c><c-c> <esc>:q!<cr>
 
 set clipboard+=unnamed  "共享剪贴板
 set autowrite           "自动保存
@@ -357,8 +360,34 @@ if has("autocmd")
     au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
 
-let mapleader=';'
+function! ManFun(...)
+    let cmd = "man "
+    if a:0 == 1
+        let cmd .= a:1
+    elseif a:0 == 2
+        let cmd .= a:1 . " " . a:2
+    else
+        echo "Arg err"
+        return
+    endif
 
+    let manpage = system(cmd)
+    sp __Manpage
+    normal! gg
+    setlocal filetype=txt
+    setlocal buftype=nofile
+    call append(0, split(manpage, '\n'))
+    setlocal nomodifiable
+    normal! gg
+
+endfunction
+
+function! GetCurWord()
+    return expand("<cword>")
+endfunction
+
+command! -nargs=* Man call ManFun(<f-args>)
+nnoremap K <esc>:call ManFun(GetCurWord())<cr>
 
 
 "------ Plugin vim-indent-guides
@@ -373,7 +402,9 @@ let g:indent_guides_guide_size=1
 
 
 "------ Plugin tagbar
-autocmd vimenter * Tagbar
+"autocmd vimenter * Tagbar
+noremap <F10> :Tagbar<CR>
+inoremap <F10> <esc>:Tagbar<CR>a
 let g:tagbar_width=20
 " 设置 ctags 对哪些代码元素生成标签
 let g:tagbar_type_cpp = {

@@ -38,6 +38,6 @@ echo "请耐心等待" >> install
 vim install -c "PluginInstall" -c "q" -c "q"
 rm -f install
 rm -rf myvim
-cd ~/bundle/YouCompleteMe/
-./install.py ---clang-completer
+#cd ~/bundle/YouCompleteMe/
+#./install.py ---clang-completer
 echo "安装完成"
