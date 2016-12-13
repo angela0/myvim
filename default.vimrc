@@ -28,6 +28,8 @@ Plugin 'ianva/vim-youdao-translater'
 Plugin 'rdnetto/YCM-Generator'
 
 Plugin 'ctrlpvim/ctrlp.vim'
+
+Plugin 'klen/python-mode'
 call vundle#end()
 filetype plugin indent on
 
@@ -265,7 +267,7 @@ map <F5> :call CompileRunGcc()<CR>
 func! CompileRunGcc()
     exec "w"
     if &filetype == 'c'
-        exec "!g++ % -o %< || make"
+        exec "!gcc % -o %< -std=gnu99 || make"
         exec "!time ./%<"
     elseif &filetype == 'cpp'
         exec "!g++ % -o %<"
@@ -327,6 +329,7 @@ endfunc
 
 """""""实用设置
 
+" ;     mapleader
 " key shortcuts
 " F2    YCM complete hint
 " F3    YCM goto declaration
@@ -339,10 +342,25 @@ endfunc
 " F10
 " F11
 " F12   pastetoggle
-" ;     mapleader
+"c-] upper a word
 inoremap <c-]> <esc>viwUea
-inoremap <c-c><c-c> <esc>:wq<cr>
-noremap <c-c><c-c> <esc>:q!<cr>
+inoremap <c-c><c-c> <esc>:q<cr>
+noremap <c-c><c-c> <esc>:q<cr>
+
+nnoremap <leader>" viw<esc>a"<esc>hbi"<esc>lel
+nnoremap <leader>' viw<esc>a'<esc>hbi'<esc>lel
+nnoremap <leader>[ viw<esc>a]<esc>hbi[<esc>lel
+nnoremap <leader>] viw<esc>a]<esc>hbi[<esc>lel
+nnoremap <leader>{ viw<esc>a}<esc>hbi{<esc>lel
+nnoremap <leader>} viw<esc>a}<esc>hbi{<esc>lel
+nnoremap <leader>( viw<esc>a)<esc>hbi(<esc>lel
+nnoremap <leader>) viw<esc>a)<esc>hbi(<esc>lel
+
+nnoremap <c-j> <c-w>j
+nnoremap <c-h> <c-w>h
+nnoremap <c-k> <c-w>k
+nnoremap <c-l> <c-w>l
+
 
 set clipboard+=unnamed  "共享剪贴板
 set autowrite           "自动保存
@@ -372,10 +390,11 @@ function! ManFun(...)
     endif
 
     let manpage = system(cmd)
+
     sp __Manpage
     normal! gg
+    setlocal buftype=nofile bufhidden=delete noswapfile nowrap previewwindow
     setlocal filetype=txt
-    setlocal buftype=nofile
     call append(0, split(manpage, '\n'))
     setlocal nomodifiable
     normal! gg
@@ -455,6 +474,8 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
 let g:ycm_key_invoke_completion = '<F2>'
 let g:ycm_confirm_extra_conf = 0
+let g:ycm_always_populate_location_list = 1
+let g:ycm_enable_diagnostic_highlighting = 0
 "map <F3> :YcmCompleter GoToDeclaration <CR>
 map <F3> :YcmCompleter GoToDefinitionElseDeclaration<CR>
 "let g:ycm_key_list_select_completion = ['','']
@@ -481,6 +502,7 @@ set pastetoggle=<F12>
 
 "------ Plugin vim-go settings
 let g:go_fmt_command = "goimports"
+let g:go_template_autocreate = 0
 
 
 
@@ -488,3 +510,31 @@ let g:go_fmt_command = "goimports"
 vnoremap <silent> <C-T> :<C-u>Ydv<CR>
 nnoremap <silent> <C-T> :<C-u>Ydc<CR>
 noremap <leader>yd :<C-u>Yde<CR>
+
+
+"------ Plugin python-mode
+let g:pymode_rope = 0
+
+let g:pymode_doc = 1
+let g:pymode_doc_key = 'K'
+
+let g:pymode_lint = 1
+let g:pymode_lint_checker = "pyflakes,pep8"
+let g:pymode_lint_write = 1
+let g:pymode_lint_cwindow = 0
+
+let g:pymode_rope_autoimport = 1
+let g:pymode_rope_autoimport_modules = ['os', 'shutil', 'datetime', 'time']
+
+let g:pymode_virtualenv = 1
+
+let g:pymode_breakpoint = 1
+let g:pymode_breakpoint_bind = '<leader>b'
+
+let g:pymode_syntax = 1
+let g:pymode_syntax_all = 1
+let g:pymode_syntax_indent_errors = g:pymode_syntax_all
+let g:pymode_syntax_space_errors = g:pymode_syntax_all
+
+
+let g:pymode_folding = 0
