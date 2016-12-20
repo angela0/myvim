@@ -394,7 +394,7 @@ function! ManFun(...)
     sp __Manpage
     normal! gg
     setlocal buftype=nofile bufhidden=delete noswapfile nowrap previewwindow
-    setlocal filetype=txt
+    setlocal filetype=man
     call append(0, split(manpage, '\n'))
     setlocal nomodifiable
     normal! gg
