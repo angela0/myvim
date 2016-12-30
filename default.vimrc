@@ -34,7 +34,6 @@ call vundle#end()
 filetype plugin indent on
 
 
-
 "General Setting
 
 let mapleader=';'
@@ -52,6 +51,7 @@ filetype on           " Enable filetype detection
 filetype indent on    " Enable filetype-specific indenting
 filetype plugin on    " Enable filetype-specific plugins
 
+let g:tex_flavor = "latex"
 
 " auto reload vimrc when editing it
 autocmd! bufwritepost .vimrc source %
@@ -343,6 +343,7 @@ endfunc
 " F11
 " F12   pastetoggle
 "c-] upper a word
+
 inoremap <c-]> <esc>viwUea
 inoremap <c-c><c-c> <esc>:q<cr>
 noremap <c-c><c-c> <esc>:q<cr>
@@ -391,12 +392,14 @@ function! ManFun(...)
 
     let manpage = system(cmd)
 
+    pclose
     sp __Manpage
     normal! gg
     setlocal buftype=nofile bufhidden=delete noswapfile nowrap previewwindow
-    setlocal filetype=man
     call append(0, split(manpage, '\n'))
     setlocal nomodifiable
+    setlocal nomodified
+    setlocal filetype=man
     normal! gg
 
 endfunction
@@ -507,8 +510,8 @@ let g:go_template_autocreate = 0
 
 
 "------ Plugin youdao-translate
-vnoremap <silent> <C-T> :<C-u>Ydv<CR>
-nnoremap <silent> <C-T> :<C-u>Ydc<CR>
+vnoremap <silent> <C-y> :<C-u>Ydv<CR>
+nnoremap <silent> <C-y> :<C-u>Ydc<CR>
 noremap <leader>yd :<C-u>Yde<CR>
 
 

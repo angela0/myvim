@@ -125,8 +125,11 @@ endsnippet
 #############
 # HTML TAGS #
 #############
-snippet input "Input with Label" w
-<label for="${2:${1/[[:alpha:]]+|( )/(?1:_:\L$0)/g}}">$1</label><input type="${3:text/submit/hidden/button}" name="${4:$2}" value="$5"${6: id="${7:$2}"}`!p x(snip)`>
+
+snippet html "html tag"
+<html${1}>
+	${0:${VISUAL}}
+</html>
 endsnippet
 
 snippet input "XHTML   <input>" w
@@ -166,7 +169,7 @@ snippet base "XHTML <base>" w
 endsnippet
 
 snippet body "<body>"
-<body>
+<body${1}>
 	${0:${VISUAL}}
 </body>
 endsnippet
