@@ -4,9 +4,9 @@ cur=`pwd`
 
 echo "安装将花费一定时间，请耐心等待直到安装完成^_^"
 if which apt-get >/dev/null; then
-    sudo apt-get install -y python-setuptools python-dev git cmake
+    sudo apt-get install -y python-setuptools python-dev git cmake astyle ctags
 elif which yum >/dev/null; then
-    sudo yum install -y gcc vim git ctags python-setuptools python-devel cmake
+    sudo yum install -y git ctags python-setuptools python-devel cmake astyle
 fi
 
 ##Add HomeBrew support on  Mac OS

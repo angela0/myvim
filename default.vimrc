@@ -165,7 +165,7 @@ autocmd FileType c,cpp,cc set cindent comments=sr:/*,mb:*,el:*/,:// cino=>s,e0,n
 set encoding=utf-8
 set termencoding=utf-8
 set fileencoding=utf-8
-set fileencodings=ucs-bom,utf-8,big5,gb2312,latin1
+set fileencodings=ucs-bom,utf-8,gb2312,big5,latin1
 
 fun! ViewUTF8()
     set encoding=utf-8
@@ -186,6 +186,11 @@ endfun
 
 "去空行
 "nnoremap <F4> :g/^\s*$/d<CR>
+map <silent> <F4> :call Match_cword()<CR>
+
+func! Match_cword()
+exe printf('match IncSearch /\V\<%s\>/', GetCurWord())
+endfun
 
 "去行尾空白符
 map <F7> :call DeleteTailSpace()<CR>
@@ -196,13 +201,30 @@ func! DeleteTailSpace()
     exec 'e! %'
 endfun
 
+" new generic makefile
+au BufNewFile makefile,Makefile exec ":call Makefile()"
+func! Makefile()
+    " if filereadable("makefile") || filereadable("Makefile")
+    "     echo "makefile exists"
+    " else
+        " vsp Makefile
+    let content = ""
+    let content .= "CC = gcc\nCXX = g++\n"
+    let content .= "CFLAGS = -Wall -Wno-unused-result\n\n"
+    let content .= "all: main\n\n"
+    let content .= "%.o: %.c\n\t$(CC) -c -o $@ $< $(CFLAGS)\n"
+    let content .= "%.o: %.cpp\n\t$(CXX) -c -o $@ $< $(CFLAGS)\n"
+    call append(0, split(content, '\n'))
+        " :w
+    " endif
 
+endfun
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""新文件标题
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "新建.c,.h,.sh,.java文件，自动插入文件头
-autocmd BufNewFile *.cpp,*.[ch],*.sh,*.rb,*.java,*.py exec ":call SetTitle()"
+autocmd BufNewFile *.cpp,*.[ch],*.sh,*.py exec ":call SetTitle()"
 ""定义函数SetTitle，自动插入文件头
 func! SetTitle()
     "如果文件类型为.sh文件
@@ -212,11 +234,6 @@ func! SetTitle()
     elseif &filetype == 'python'
         call setline(1,"#!/usr/bin/env python")
         call append(line("."),"# coding=utf-8")
-        call append(line(".")+1, "")
-
-    elseif &filetype == 'ruby'
-        call setline(1,"#!/usr/bin/env ruby")
-        call append(line("."),"# encoding: utf-8")
         call append(line(".")+1, "")
     else
         call setline(1, "/*************************************************************************")
@@ -252,10 +269,6 @@ func! SetTitle()
         call append(line(".")+7, "#define _".toupper(expand("%:r"))."_H")
         call append(line(".")+8, "#endif")
     endif
-    if &filetype == 'java'
-        call append(line(".")+6,"public class ".expand("%:r"))
-        call append(line(".")+7,"")
-    endif
 endfunc
 
 "新建文件后，自动定位到文件末尾
@@ -272,9 +285,6 @@ func! CompileRunGcc()
     elseif &filetype == 'cpp'
         exec "!g++ % -o %<"
         exec "!time ./%<"
-    elseif &filetype == 'java'
-        exec "!javac %"
-        exec "!time java %<"
     elseif &filetype == 'sh'
         :!time bash %
     elseif &filetype == 'python'
@@ -308,15 +318,11 @@ map <F6> :call FormartSrc()<CR><CR>
 func! FormartSrc()
     exec "w"
     if &filetype == 'c'
-        exec "!astyle --style=ansi --suffix=none %"
+        exec "!astyle --style=ansi -p -H --suffix=none %"
     elseif &filetype == 'cpp' || &filetype == 'hpp'
-        exec "r !astyle --style=ansi --one-line=keep-statements -a --suffix=none %> /dev/null 2>&1"
-    elseif &filetype == 'perl'
-        exec "!astyle --style=gnu --suffix=none %"
+        exec "r !astyle --style=ansi --one-line=keep-statements -p -H -a --suffix=none %> /dev/null 2>&1"
     elseif &filetype == 'py'||&filetype == 'python'
         exec "r !autopep8 -i --aggressive %"
-    elseif &filetype == 'java'
-        exec "!astyle --style=java --suffix=none %"
     elseif &filetype == 'xml'
         exec "!astyle --style=gnu --suffix=none %"
     else
@@ -362,6 +368,10 @@ nnoremap <c-h> <c-w>h
 nnoremap <c-k> <c-w>k
 nnoremap <c-l> <c-w>l
 
+nmap <space> :
+vmap <space> :
+
+nmap <silent> <C-m> :nohlsearch<CR>
 
 set clipboard+=unnamed  "共享剪贴板
 set autowrite           "自动保存
@@ -497,7 +507,8 @@ imap <F9> <ESC> :NERDTreeToggle<CR>
 "当打开vim且没有文件时自动打开NERDTree
 autocmd vimenter * if !argc() | NERDTree | endif
 " 只剩 NERDTree时自动关闭
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+" autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+" autocmd bufenter * if (winnr("$") == 1) | q | endif
 
 set pastetoggle=<F12>
 
