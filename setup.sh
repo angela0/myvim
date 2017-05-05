@@ -19,7 +19,7 @@ fi
 mv -f ~/.vim ~/.vim_old
 mv -f ~/.vimrc ~/.vimrc_old
 #cp myvim/default.vimrc ~/.vimrc
-ln -s `pwd`/myvim/default.vimrc /home/`whoami`/.vimrc
+ln -s `pwd`/default.vimrc /home/`whoami`/.vimrc
 
 mkdir -p ~/.vim/bundle
 mkdir -p ~/.vim/colors

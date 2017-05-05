@@ -36,7 +36,7 @@ filetype plugin indent on
 
 "General Setting
 
-let mapleader=';'
+let mapleader=' '
 "set nocompatible	" not compatible with the old-fashion vi mode
 set bs=2	    	" allow backspacing over everything in insert mode
 set history=1000	" keep 50 lines of command line history
@@ -368,8 +368,8 @@ nnoremap <c-h> <c-w>h
 nnoremap <c-k> <c-w>k
 nnoremap <c-l> <c-w>l
 
-nmap <space> :
-vmap <space> :
+" nmap <space> :
+" vmap <space> :
 
 nmap <silent> <C-m> :nohlsearch<CR>
 
@@ -423,14 +423,12 @@ nnoremap K <esc>:call ManFun(GetCurWord())<cr>
 
 
 "------ Plugin vim-indent-guides
-" 随 vim 自启动
-let g:indent_guides_enable_on_vim_startup=1
-" 从第二层开始可视化显示缩进
-let g:indent_guides_start_level=2
-" 色块宽度
-let g:indent_guides_guide_size=1
+let g:indent_guides_enable_on_vim_startup=1 " 随 vim 自启动
+let g:indent_guides_start_level=2 " 从第二层开始可视化显示缩进
+let g:indent_guides_guide_size=1 " 色块宽度
+
 " 快捷键 i 开/关缩进可视化
-:nmap <silent> <Leader>i <Plug>IndentGuidesToggle"
+:nmap <silent> <Leader>i <Plug>IndentGuidesToggle
 
 
 "------ Plugin tagbar
@@ -507,7 +505,7 @@ imap <F9> <ESC> :NERDTreeToggle<CR>
 "当打开vim且没有文件时自动打开NERDTree
 autocmd vimenter * if !argc() | NERDTree | endif
 " 只剩 NERDTree时自动关闭
-" autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 " autocmd bufenter * if (winnr("$") == 1) | q | endif
 
 set pastetoggle=<F12>
