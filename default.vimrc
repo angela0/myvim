@@ -373,6 +373,8 @@ nnoremap <c-l> <c-w>l
 
 nmap <silent> <C-m> :nohlsearch<CR>
 
+inoremap <c-j> <esc>o
+
 set clipboard+=unnamed  "共享剪贴板
 set autowrite           "自动保存
 set confirm             "处理未保存和只读文件时确认

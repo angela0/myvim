@@ -6,7 +6,8 @@ echo "安装将花费一定时间，请耐心等待直到安装完成^_^"
 if which apt-get >/dev/null; then
     sudo apt-get install -y python-setuptools python-dev git cmake astyle ctags
 elif which yum >/dev/null; then
-    sudo yum install -y git ctags python-setuptools python-devel cmake astyle
+    sudo yum install -y git ctags python-setuptools python-devel cmake
+    # install astyle by youself
 fi
 
 ##Add HomeBrew support on  Mac OS
@@ -19,7 +20,7 @@ fi
 mv -f ~/.vim ~/.vim_old
 mv -f ~/.vimrc ~/.vimrc_old
 #cp myvim/default.vimrc ~/.vimrc
-ln -s `pwd`/default.vimrc /home/`whoami`/.vimrc
+ln -s `pwd`/default.vimrc ~/.vimrc
 
 mkdir -p ~/.vim/bundle
 mkdir -p ~/.vim/colors
