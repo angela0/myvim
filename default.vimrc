@@ -192,6 +192,13 @@ func! Match_cword()
 exe printf('match IncSearch /\V\<%s\>/', GetCurWord())
 endfun
 
+noremap n :set hlsearch<cr>n
+noremap N :set hlsearch<cr>N
+noremap / :set hlsearch<cr>/
+noremap ? :set hlsearch<cr>?
+noremap * *:set hlsearch<cr>
+nnoremap <C-N> :set nohlsearch<CR>
+
 "去行尾空白符
 map <F7> :call DeleteTailSpace()<CR>
 func! DeleteTailSpace()
