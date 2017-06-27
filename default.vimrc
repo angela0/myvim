@@ -37,11 +37,11 @@ filetype plugin indent on
 "General Setting
 
 let mapleader=' '
-"set nocompatible	" not compatible with the old-fashion vi mode
-set bs=2	    	" allow backspacing over everything in insert mode
-set history=1000	" keep 50 lines of command line history
-set autoread		" auto read when file is changed from outside
-set hlsearch		" search highlighting
+"set nocompatible    " not compatible with the old-fashion vi mode
+set bs=2            " allow backspacing over everything in insert mode
+set history=1000    " keep 50 lines of command line history
+set autoread        " auto read when file is changed from outside
+set hlsearch        " search highlighting
 set wildmenu        "命令行模式智能补全
 set wildmode=longest:full
 
@@ -57,11 +57,11 @@ let g:tex_flavor = "latex"
 autocmd! bufwritepost .vimrc source %
 
 
-if has("gui_running")	" GUI color and font settings
+if has("gui_running")       " GUI color and font settings
     set guifont=Osaka-Mono:h20
     set background=dark
-    set t_Co=256          " 256 color mode
-    set cursorline        " highlight current line
+    set t_Co=256            " 256 color mode
+    set cursorline          " highlight current line
     colors molokai
     highlight CursorLine          guibg=#003853 ctermbg=24
     gui=none cterm=none
@@ -75,20 +75,20 @@ endif
 set wildignore=*.o,*.class,*.pyc
 
 set smartindent
-set autoindent		" auto indentation
-set incsearch		" incremental search
-set ignorecase      " ignorecase search
-set nobackup		" no *~ backup files
-set copyindent		" copy the previous indentation on autoindenting
-set ignorecase		" ignore case when searching
-set smartcase		" ignore case if search pattern is all lowercase,case-sensitive otherwise
-set smarttab		" insert tabs on the start of a line according to context
+set autoindent          " auto indentation
+set incsearch           " incremental search
+set ignorecase          " ignorecase search
+set nobackup            " no *~ backup files
+set copyindent          " copy the previous indentation on autoindenting
+set ignorecase          " ignore case when searching
+set smartcase           " ignore case if search pattern is all lowercase,case-sensitive otherwise
+set smarttab            " insert tabs on the start of a line according to context
 set nu
-"set ruler           "显示标尺
-set cul             "高亮光标所在行
+"set ruler              "显示标尺
+set cul                 "高亮光标所在行
 set shortmess=atI
-set showcmd         "显示输入的命令
-set scrolloff=3     "光标距离buffer顶部或底部3行
+set showcmd             "显示输入的命令
+set scrolloff=3         "光标距离buffer顶部或底部3行
 set noswapfile
 
 if version >= 603
