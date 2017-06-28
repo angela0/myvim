@@ -10,7 +10,8 @@ Plugin 'The-NERD-tree'
 Plugin 'Auto-Pairs'
 Plugin 'L9'
 "Plugin 'https://github.com/wincent/command-t.git'
-Plugin 'nathanaelkane/vim-indent-guides.git'
+"Plugin 'nathanaelkane/vim-indent-guides.git'
+Plugin 'Yggdroot/indentLine'
 Plugin 'tagbar'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'tpope/vim-commentary'   "comment
@@ -124,6 +125,8 @@ set softtabstop=4
 set tabstop=4
 set shiftwidth=4
 set smarttab
+set conceallevel=3
+set list lcs:tab:\¦\ 
 
 au FileType Makefile set noexpandtab
 "}
