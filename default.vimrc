@@ -26,14 +26,15 @@ Plugin 'ianva/vim-youdao-translater'
 
 "Plugin 'wchargin/vim-latexsuite'
 
-Plugin 'rdnetto/YCM-Generator'
+"Plugin 'rdnetto/YCM-Generator'
+Plugin 'tpope/vim-surround'
 
 Plugin 'ctrlpvim/ctrlp.vim'
 
 Plugin 'klen/python-mode'
 call vundle#end()
 filetype plugin indent on
-
+runtime macros/matchit.vim
 
 "General Setting
 
@@ -195,12 +196,21 @@ func! Match_cword()
 exe printf('match IncSearch /\V\<%s\>/', GetCurWord())
 endfun
 
+noremap <Up> <Nop>
+noremap <Down> <Nop>
+noremap <Left> <Nop>
+noremap <Right> <Nop>
+
 noremap n :set hlsearch<cr>n
 noremap N :set hlsearch<cr>N
 noremap / :set hlsearch<cr>/
 noremap ? :set hlsearch<cr>?
 noremap * *:set hlsearch<cr>
 nnoremap <C-N> :set nohlsearch<CR>
+
+cnoremap <C-p> <UP>
+cnoremap <C-n> <Down>
+cnoremap <expr> %% getcmdtype( ) == ':' ? expand('%:h').'/' : '%%'
 
 "去行尾空白符
 map <F7> :call DeleteTailSpace()<CR>
@@ -373,6 +383,7 @@ nnoremap <leader>} viw<esc>a}<esc>hbi{<esc>lel
 nnoremap <leader>( viw<esc>a)<esc>hbi(<esc>lel
 nnoremap <leader>) viw<esc>a)<esc>hbi(<esc>lel
 
+nnoremap <c-w> <c-w>w
 nnoremap <c-j> <c-w>j
 nnoremap <c-h> <c-w>h
 nnoremap <c-k> <c-w>k
