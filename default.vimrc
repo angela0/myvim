@@ -10,7 +10,6 @@ Plugin 'The-NERD-tree'
 Plugin 'Auto-Pairs'
 Plugin 'L9'
 "Plugin 'https://github.com/wincent/command-t.git'
-"Plugin 'nathanaelkane/vim-indent-guides.git'
 Plugin 'Yggdroot/indentLine'
 Plugin 'tagbar'
 Plugin 'Valloric/YouCompleteMe'
@@ -29,6 +28,7 @@ Plugin 'ianva/vim-youdao-translater'
 Plugin 'rdnetto/YCM-Generator'
 
 Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'tpope/vim-surround'
 
 Plugin 'klen/python-mode'
 call vundle#end()
@@ -127,6 +127,8 @@ set shiftwidth=4
 set smarttab
 set conceallevel=3
 set list lcs:tab:\¦\ 
+
+autocmd FileType json let g:indentLine_setConceal=0
 
 au FileType Makefile set noexpandtab
 "}
@@ -434,15 +436,6 @@ command! -nargs=* Man call ManFun(<f-args>)
 nnoremap K <esc>:call ManFun(GetCurWord())<cr>
 
 
-"------ Plugin vim-indent-guides
-let g:indent_guides_enable_on_vim_startup=1 " 随 vim 自启动
-let g:indent_guides_start_level=2 " 从第二层开始可视化显示缩进
-let g:indent_guides_guide_size=1 " 色块宽度
-
-" 快捷键 i 开/关缩进可视化
-:nmap <silent> <Leader>i <Plug>IndentGuidesToggle
-
-
 "------ Plugin tagbar
 "autocmd vimenter * Tagbar
 noremap <F10> :Tagbar<CR>
@@ -559,6 +552,5 @@ let g:pymode_syntax = 1
 let g:pymode_syntax_all = 1
 let g:pymode_syntax_indent_errors = g:pymode_syntax_all
 let g:pymode_syntax_space_errors = g:pymode_syntax_all
-
 
 let g:pymode_folding = 0
