@@ -29,7 +29,6 @@ Plugin 'ianva/vim-youdao-translater'
 Plugin 'tpope/vim-surround'
 
 Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'tpope/vim-surround'
 
 Plugin 'klen/python-mode'
 call vundle#end()
