@@ -106,7 +106,7 @@ set iskeyword+=_,$,@,%,#,-  " 带有如下符号的单词不要被换行分割
 " Editing related
 set backspace=indent,eol,start
 set whichwrap=b,s,<,>,[,]
-set mouse=a
+" set mouse=a
 set selectmode=
 set mousemodel=popup
 set keymodel=
