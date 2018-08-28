@@ -106,7 +106,7 @@ set iskeyword+=_,$,@,%,#,-  " 带有如下符号的单词不要被换行分割
 " Editing related
 set backspace=indent,eol,start
 set whichwrap=b,s,<,>,[,]
-set mouse=a
+" set mouse=a
 set selectmode=
 set mousemodel=popup
 set keymodel=
@@ -170,7 +170,7 @@ autocmd FileType c,cpp,cc set cindent comments=sr:/*,mb:*,el:*/,:// cino=>s,e0,n
 set encoding=utf-8
 set termencoding=utf-8
 set fileencoding=utf-8
-set fileencodings=ucs-bom,utf-8,gb2312,big5,latin1
+set fileencodings=ucs-bom,utf-8,gb2312,gb18030,big5,latin1
 
 fun! ViewUTF8()
     set encoding=utf-8
@@ -313,7 +313,7 @@ func! CompileRunGcc()
     elseif &filetype == 'html'
         exec "!firefox % &"
     elseif &filetype == 'go'
-        exec "!time go run %"
+        exec "!time go run *.go"
     elseif &filetype == 'mkd'
         exec "!~/.vim/markdown.pl % > %.html &"
         exec "!firefox %.html &"
@@ -507,6 +507,7 @@ map <F3> :YcmCompleter GoToDefinitionElseDeclaration<CR>
 "let g:ycm_key_list_select_completion = ['','']
 "let g:ycm_key_list_previous_completion = ['','']
 set completeopt-=preview
+let g:ycm_log_level = 'debug'
 
 
 
@@ -540,6 +541,7 @@ noremap <leader>yd :<C-u>Yde<CR>
 
 
 "------ Plugin python-mode
+let g:pymode_python = 'python'
 let g:pymode_rope = 0
 
 let g:pymode_doc = 1
