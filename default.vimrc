@@ -393,7 +393,7 @@ nnoremap <c-l> <c-w>l
 " nmap <space> :
 " vmap <space> :
 
-nmap <silent> <C-m> :nohlsearch<CR>
+" nmap <silent> <C-m> :nohlsearch<CR>
 
 inoremap <c-j> <esc>o
 
@@ -497,7 +497,7 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 
 "------ Plugin YCM
-let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
+" let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py'
 let g:ycm_key_invoke_completion = '<F2>'
 let g:ycm_confirm_extra_conf = 0
 let g:ycm_always_populate_location_list = 1
@@ -508,6 +508,7 @@ map <F3> :YcmCompleter GoToDefinitionElseDeclaration<CR>
 "let g:ycm_key_list_previous_completion = ['','']
 set completeopt-=preview
 let g:ycm_log_level = 'debug'
+let g:ycm_max_diagnostics_to_display = 0
 
 
 
@@ -531,6 +532,11 @@ set pastetoggle=<F12>
 "------ Plugin vim-go settings
 let g:go_fmt_command = "goimports"
 let g:go_template_autocreate = 0
+let g:go_code_completion_enabled = 0
+let g:go_metalinter_autosave = 0
+let g:go_fmt_autosave = 1
+let g:go_code_completion_enabled = 0
+let g:go_echo_go_info = 0
 
 
 
