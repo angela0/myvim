@@ -156,7 +156,7 @@ autocmd FileType c,cpp,cc set cindent comments=sr:/*,mb:*,el:*/,:// cino=>s,e0,n
 set encoding=utf-8
 set termencoding=utf-8
 set fileencoding=utf-8
-set fileencodings=ucs-bom,utf-8,gb2312,big5,latin1
+set fileencodings=ucs-bom,utf-8,gb2312,gb18030,big5,latin1
 
 fun! ViewUTF8()
     set encoding=utf-8
@@ -306,7 +306,10 @@ func! CompileRunGcc()
     elseif &filetype == 'html'
         exec "!firefox % &"
     elseif &filetype == 'go'
-        exec "!time go run %"
+        exec "!time go run *.go"
+    elseif &filetype == 'mkd'
+        exec "!~/.vim/markdown.pl % > %.html &"
+        exec "!firefox %.html &"
     elseif &filetype == 'javascript'
         exec "!time node %"
     endif
@@ -363,7 +366,7 @@ nnoremap <c-k> <c-w>k
 nnoremap <c-l> <c-w>l
 
 
-nmap <silent> <C-m> :nohlsearch<CR>
+" nmap <silent> <C-m> :nohlsearch<CR>
 
 inoremap <c-j> <esc>o
 
@@ -480,6 +483,8 @@ map <F3> :YcmCompleter GoTo<CR>
 "let g:ycm_key_list_select_completion = ['','']
 "let g:ycm_key_list_previous_completion = ['','']
 set completeopt-=preview
+let g:ycm_log_level = 'debug'
+let g:ycm_max_diagnostics_to_display = 0
 
 
 
