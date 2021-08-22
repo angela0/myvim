@@ -21,6 +21,8 @@ Plugin 'tpope/vim-surround'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'klen/python-mode'
 
+Plugin 'ojroques/vim-oscyank'
+
 " Plugin 'wchargin/vim-latexsuite'
 " Plugin 'mxw/vim-jsx'
 call vundle#end()
@@ -549,3 +551,9 @@ let g:pymode_syntax_indent_errors = g:pymode_syntax_all
 let g:pymode_syntax_space_errors = g:pymode_syntax_all
 
 let g:pymode_folding = 0
+
+
+"------ Plugin ojroques/vim-oscyank
+vnoremap Y :OSCYank<CR>
+noremap Y yy:OSCYankReg "<CR>
+let g:oscyank_term = 'tmux'
