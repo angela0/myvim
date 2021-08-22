@@ -1,4 +1,5 @@
-"Vundle Plugin
+"""""" Plugin Setting {
+""" Vundle Plugin {
 set nocompatible
 filetype off
 
@@ -6,39 +7,37 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'The-NERD-tree'
-"Plugin 'taglist.vim'
 Plugin 'Auto-Pairs'
 Plugin 'L9'
-"Plugin 'https://github.com/wincent/command-t.git'
 Plugin 'Yggdroot/indentLine'
-Plugin 'tagbar'
+Plugin 'majutsushi/tagbar'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'tpope/vim-commentary'   "comment
 Plugin 'fatih/vim-go'
 Plugin 'vim-airline/vim-airline'
-"Plugin 'vim-airline/vim-airline-themes'
-
 Plugin 'SirVer/ultisnips'
-
 Plugin 'ianva/vim-youdao-translater'
-"Plugin 'davidhalter/jedi-vim'
-
-"Plugin 'wchargin/vim-latexsuite'
-
-"Plugin 'rdnetto/YCM-Generator'
 Plugin 'tpope/vim-surround'
-
 Plugin 'ctrlpvim/ctrlp.vim'
-
 Plugin 'klen/python-mode'
-call vundle#end()
-filetype plugin indent on
-runtime macros/matchit.vim
 
-"General Setting
+" Plugin 'wchargin/vim-latexsuite'
+" Plugin 'mxw/vim-jsx'
+call vundle#end()
+""" Vundle Plugin End }
+
+""" Other Plugin {
+filetype plugin indent on
+" enable built-in matchit plugin
+runtime macros/matchit.vim
+""" Other Plugin End }
+"""""" Plugin Setting End }
+
+
+"""""" General Setting {
 
 let mapleader=' '
-"set nocompatible    " not compatible with the old-fashion vi mode
+" set nocompatible    " not compatible with the old-fashion vi mode
 set bs=2            " allow backspacing over everything in insert mode
 set history=1000    " keep 50 lines of command line history
 set autoread        " auto read when file is changed from outside
@@ -46,7 +45,7 @@ set hlsearch        " search highlighting
 set wildmenu        "命令行模式智能补全
 set wildmode=longest:full
 
-syntax enable
+" syntax enable
 syntax on
 filetype on           " Enable filetype detection
 filetype indent on    " Enable filetype-specific indenting
@@ -54,8 +53,7 @@ filetype plugin on    " Enable filetype-specific plugins
 
 let g:tex_flavor = "latex"
 
-" auto reload vimrc when editing it
-autocmd! bufwritepost .vimrc source %
+autocmd! bufwritepost .vimrc source %   " auto reload vimrc when editing it
 
 
 if has("gui_running")       " GUI color and font settings
@@ -67,7 +65,6 @@ if has("gui_running")       " GUI color and font settings
     highlight CursorLine          guibg=#003853 ctermbg=24
     gui=none cterm=none
 else
-    " terminal color settings
     colors phd
 endif
 
@@ -103,7 +100,7 @@ set viminfo+=!      " 保存全局变量
 set iskeyword+=_,$,@,%,#,-  " 带有如下符号的单词不要被换行分割
 
 
-" Editing related
+""" Editing Related {
 set backspace=indent,eol,start
 set whichwrap=b,s,<,>,[,]
 " set mouse=a
@@ -111,15 +108,16 @@ set selectmode=
 set mousemodel=popup
 set keymodel=
 set selection=inclusive
+""" Editing Related End }
 
-" disable sound on errors
+"disable sound on errors
 set noerrorbells
 set novisualbell
 set t_vb=
 set tm=500
 
 
-" TAB setting{
+""" TAB Setting {
 set expandtab        "replace <TAB> with spaces
 set softtabstop=4
 set tabstop=4
@@ -131,34 +129,22 @@ set list lcs:tab:\¦\
 autocmd FileType json let g:indentLine_setConceal=0
 
 au FileType Makefile set noexpandtab
-"}
+""" TAB Setting End }
 
-"Line setting
+""" Line Setting {
 "set nowrap  "禁止折行
-set tw=130  "超过80字符折行
+set tw=130  "超过130字符折行
 set lbr     "不再单词中间折行
 set fo+=mB  "断行模块对亚洲语言的支持
+""" Line Setting End }
 
 
-" status line {
+""" Status Line {
 set laststatus=2
-"set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\
-"set statusline+=[POS=%l,%v][%p%%]\ %{strftime(\"%d/%m/%y\ -\ %H:%M\")}   "状态行显示的内容
+"status line's content controled by plugin vim-airline/vim-airline
+""" Status Line End }
 
-function! CurDir()
-    let curdir = substitute(getcwd(), $HOME, "~", "")
-    return curdir
-endfunction
-
-function! HasPaste()
-    if &paste
-        return '[PASTE]'
-    else
-        return ''
-    endif
-endfunction
-
-"}
+"""""" General Setting End }
 
 
 " C/C++ specific settings
@@ -187,14 +173,6 @@ endfun
 fun! Big5()
     set encoding=big5
     set fileencoding=big5
-endfun
-
-"去空行
-"nnoremap <F4> :g/^\s*$/d<CR>
-map <silent> <F4> :call Match_cword()<CR>
-
-func! Match_cword()
-exe printf('match IncSearch /\V\<%s\>/', GetCurWord())
 endfun
 
 noremap <Up> <Nop>
@@ -245,9 +223,9 @@ endfun
 """""新文件标题
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "新建.c,.h,.sh,.java文件，自动插入文件头
-autocmd BufNewFile *.cpp,*.[ch],*.sh,*.py exec ":call SetTitle()"
-""定义函数SetTitle，自动插入文件头
-func! SetTitle()
+autocmd BufNewFile *.cpp,*.[ch],*.sh,*.py exec ":call SetTemplate()"
+""定义函数SetTemplate
+func! SetTemplate()
     "如果文件类型为.sh文件
     if &filetype == 'sh'
         call setline(1,"\#!/bin/bash")
@@ -291,17 +269,32 @@ func! SetTitle()
         call append(line(".")+8, "#endif")
     endif
 endfunc
+command! LoadTemplate call SetTemplate()
 
-"新建文件后，自动定位到文件末尾
+"新建文件后，自动定位到文件末尾，之前光标依然在 0:0
 autocmd BufNewFile * normal G
 
+
+""""""" Custom Keybind {
+
+" F2    YCM complete hint
+" F3    YCM goto declaration
+" F4
+" F5    Compile and Run
+" F6    Format
+" F7    Delete Line-Tail space
+" F8    Run GDB
+" F9    Open or Close NerdTree Window
+" F10   TagBar
+" F11
+" F12   pastetoggle
 
 "C，C++ 按F5编译运行
 map <F5> :call CompileRunGcc()<CR>
 func! CompileRunGcc()
     exec "w"
     if &filetype == 'c'
-        exec "!gcc % -o %< -std=gnu99 || make"
+        exec "!gcc % -o %< -std=gnu99"
         exec "!time ./%<"
     elseif &filetype == 'cpp'
         exec "!g++ % -o %<"
@@ -314,21 +307,10 @@ func! CompileRunGcc()
         exec "!firefox % &"
     elseif &filetype == 'go'
         exec "!time go run %"
-    elseif &filetype == 'mkd'
-        exec "!~/.vim/markdown.pl % > %.html &"
-        exec "!firefox %.html &"
     elseif &filetype == 'javascript'
         exec "!time node %"
     endif
 endfunc
-"C,C++的调试
-map <F8> :call Rungdb()<CR>
-func! Rungdb()
-    exec "w"
-    exec "!g++ % -g -o %<"
-    exec "!gdb ./%<"
-endfunc
-
 
 
 "代码格式优化化
@@ -354,22 +336,12 @@ func! FormartSrc()
 endfunc
 
 
-"""""""实用设置
-
-" ;     mapleader
-" key shortcuts
-" F2    YCM complete hint
-" F3    YCM goto declaration
-" F4
-" F5    Compile and Run
-" F6    Format
-" F7    Delete Line-Tail space
-" F8    Run GDB
-" F9    Open or Close NerdTree Window
-" F10
-" F11
-" F12   pastetoggle
-"c-] upper a word
+""" highlight all current world
+map <silent> <F4> :call Match_cword()<CR>
+func! Match_cword()
+exe printf('match IncSearch /\V\<%s\>/', GetCurWord())
+endfun
+"""
 
 inoremap <c-]> <esc>viwUea
 inoremap <c-c><c-c> <esc>:q<cr>
@@ -390,8 +362,6 @@ nnoremap <c-h> <c-w>h
 nnoremap <c-k> <c-w>k
 nnoremap <c-l> <c-w>l
 
-" nmap <space> :
-" vmap <space> :
 
 nmap <silent> <C-m> :nohlsearch<CR>
 
@@ -413,6 +383,7 @@ if has("autocmd")
     au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
 
+""" Man Page {
 function! ManFun(...)
     let cmd = "man "
     if a:0 == 1
@@ -444,10 +415,12 @@ endfunction
 
 command! -nargs=* Man call ManFun(<f-args>)
 nnoremap K <esc>:call ManFun(GetCurWord())<cr>
+""" Man Page End }
 
+""""""" Custom Keybind End }
 
 "------ Plugin tagbar
-"autocmd vimenter * Tagbar
+autocmd vimenter * Tagbar
 noremap <F10> :Tagbar<CR>
 inoremap <F10> <esc>:Tagbar<CR>a
 let g:tagbar_width=20
@@ -495,15 +468,15 @@ let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 
-
 "------ Plugin YCM
-let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
 let g:ycm_key_invoke_completion = '<F2>'
 let g:ycm_confirm_extra_conf = 0
 let g:ycm_always_populate_location_list = 1
+let g:ycm_auto_hover = ""
 let g:ycm_enable_diagnostic_highlighting = 0
 "map <F3> :YcmCompleter GoToDeclaration <CR>
-map <F3> :YcmCompleter GoToDefinitionElseDeclaration<CR>
+" map <F3> :YcmCompleter GoToDefinitionElseDeclaration<CR>
+map <F3> :YcmCompleter GoTo<CR>
 "let g:ycm_key_list_select_completion = ['','']
 "let g:ycm_key_list_previous_completion = ['','']
 set completeopt-=preview
@@ -530,6 +503,11 @@ set pastetoggle=<F12>
 "------ Plugin vim-go settings
 let g:go_fmt_command = "goimports"
 let g:go_template_autocreate = 0
+let g:go_code_completion_enabled = 0
+let g:go_metalinter_autosave = 0
+let g:go_fmt_autosave = 1
+let g:go_code_completion_enabled = 0
+let g:go_echo_go_info = 0
 
 
 
@@ -540,6 +518,7 @@ noremap <leader>yd :<C-u>Yde<CR>
 
 
 "------ Plugin python-mode
+let g:pymode_python = 'python3'
 let g:pymode_rope = 0
 
 let g:pymode_doc = 1
@@ -549,6 +528,7 @@ let g:pymode_lint = 1
 let g:pymode_lint_checker = "pyflakes,pep8"
 let g:pymode_lint_write = 1
 let g:pymode_lint_cwindow = 0
+let g:pymode_options_max_line_length = 120
 
 let g:pymode_rope_autoimport = 1
 let g:pymode_rope_autoimport_modules = ['os', 'shutil', 'datetime', 'time']
