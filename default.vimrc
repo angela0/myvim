@@ -20,6 +20,7 @@ Plugin 'ianva/vim-youdao-translater'
 Plugin 'tpope/vim-surround'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'klen/python-mode'
+Plugin 'rust-lang/rust.vim'
 
 Plugin 'ojroques/vim-oscyank'
 
@@ -177,6 +178,19 @@ fun! Big5()
     set fileencoding=big5
 endfun
 
+
+" switch tab
+noremap <M-1> 1gt
+noremap <M-2> 2gt
+noremap <M-3> 3gt
+noremap <M-4> 4gt
+noremap <M-5> 5gt
+noremap <M-6> 6gt
+noremap <M-7> 7gt
+noremap <M-8> 8gt
+noremap <M-9> 9gt
+noremap <M-0> :tablast<cr>
+
 noremap <Up> <Nop>
 noremap <Down> <Nop>
 noremap <Left> <Nop>
@@ -314,6 +328,8 @@ func! CompileRunGcc()
         exec "!firefox %.html &"
     elseif &filetype == 'javascript'
         exec "!time node %"
+    elseif &filetype == 'rust'
+        :call RunRust()
     endif
 endfunc
 
@@ -469,7 +485,7 @@ let g:tagbar_type_cpp = {
 "绝对路径
 let g:UltiSnipsSnippetDirectories=[$HOME."/.vim/bundle/ultisnips/mysnippets/"]
 let g:UltiSnipsExpandTrigger="<c-x>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpForwardTrigger="<c-f>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 
@@ -557,3 +573,15 @@ let g:pymode_folding = 0
 vnoremap Y :OSCYank<CR>
 noremap Y yy:OSCYankReg "<CR>
 let g:oscyank_term = 'tmux'
+
+"------ Plugin rust
+let g:rustfmt_autosave = 1
+" let g:cargo_shell_command_runner = '!'
+func! RunRust()
+    let p = findfile("Cargo.toml", ".;")
+    if !empty(p)
+        exec "Crun --manifest-path ".p
+    else
+        RustRun
+    endif
+endfun
