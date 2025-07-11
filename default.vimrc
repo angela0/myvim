@@ -11,7 +11,7 @@ Plugin 'Auto-Pairs'
 Plugin 'L9'
 Plugin 'Yggdroot/indentLine'
 Plugin 'majutsushi/tagbar'
-Plugin 'Valloric/YouCompleteMe'
+"Plugin 'Valloric/YouCompleteMe'
 Plugin 'tpope/vim-commentary'   "comment
 Plugin 'fatih/vim-go'
 Plugin 'vim-airline/vim-airline'
@@ -490,19 +490,19 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 
 "------ Plugin YCM
-let g:ycm_key_invoke_completion = '<F2>'
-let g:ycm_confirm_extra_conf = 0
-let g:ycm_always_populate_location_list = 1
-let g:ycm_auto_hover = ""
-let g:ycm_enable_diagnostic_highlighting = 0
-"map <F3> :YcmCompleter GoToDeclaration <CR>
-" map <F3> :YcmCompleter GoToDefinitionElseDeclaration<CR>
-map <F3> :YcmCompleter GoTo<CR>
-"let g:ycm_key_list_select_completion = ['','']
-"let g:ycm_key_list_previous_completion = ['','']
-set completeopt-=preview
-let g:ycm_log_level = 'debug'
-let g:ycm_max_diagnostics_to_display = 0
+"let g:ycm_key_invoke_completion = '<F2>'
+"let g:ycm_confirm_extra_conf = 0
+"let g:ycm_always_populate_location_list = 1
+"let g:ycm_auto_hover = ""
+"let g:ycm_enable_diagnostic_highlighting = 0
+""map <F3> :YcmCompleter GoToDeclaration <CR>
+"" map <F3> :YcmCompleter GoToDefinitionElseDeclaration<CR>
+"map <F3> :YcmCompleter GoTo<CR>
+""let g:ycm_key_list_select_completion = ['','']
+""let g:ycm_key_list_previous_completion = ['','']
+"set completeopt-=preview
+"let g:ycm_log_level = 'debug'
+"let g:ycm_max_diagnostics_to_display = 0
 
 
 

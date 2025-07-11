@@ -3,8 +3,8 @@
 cur=`pwd`
 
 install_dep() {
-    if which apt-get >/dev/null; then
-        sudo apt-get install -y python-setuptools python3-dev git cmake astyle ctags build-essential libncurses5-dev bear
+    if which apt >/dev/null; then
+        sudo apt install -y python-setuptools python3-dev git cmake astyle ctags build-essential libncurses5-dev bear
     elif which yum >/dev/null; then
         sudo yum install -y git ctags python-setuptools python-devel cmake
         # install astyle by youself
@@ -34,7 +34,6 @@ install_vim() {
 
 echo "安装将花费一定时间，请耐心等待直到安装完成^_^"
 install_dep
-install_vim
 
 mv -f ~/.vim ~/.vim_old
 mv -f ~/.vimrc ~/.vimrc_old
